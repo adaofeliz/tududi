@@ -1,6 +1,8 @@
 services:
   tududi:
-    image: chrisvel/tududi:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: tududi
     environment:
       - TUDUDI_USER_EMAIL=admin@example.com
@@ -9,9 +11,18 @@ services:
       - TUDUDI_ALLOWED_ORIGINS=http://localhost:3002
       - TUDUDI_TRUST_PROXY=false
       - TUDUDI_UPLOAD_PATH=/app/backend/uploads
+      # Feature Flags
+      - FF_ENABLE_BACKUPS=${FF_ENABLE_BACKUPS:-false}
+      - FF_ENABLE_CALENDAR=${FF_ENABLE_CALENDAR:-false}
+      - FF_ENABLE_HABITS=${FF_ENABLE_HABITS:-false}
+      - FF_ENABLE_TELEGRAM=${FF_ENABLE_TELEGRAM:-false}
+      - FF_ENABLE_SCHEDULER=${FF_ENABLE_SCHEDULER:-false}
+      # Other environment variables
+      - BACKEND_URL=${BACKEND_URL:-http://localhost:3002}
+      - SWAGGER_ENABLED=${SWAGGER_ENABLED:-false}
       # Runtime UID/GID configuration - set these to match your host user/group
-      - PUID=1001
-      - PGID=1001
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
     volumes:
       - ./tududi_db:/app/backend/db
       - ./uploads:/app/backend/uploads
