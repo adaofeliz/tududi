@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1">
     <base href="/">
     <script>
       (function () {
@@ -33,6 +33,11 @@
           document.head.insertBefore(baseTag, document.head.firstChild);
         }
         baseTag.setAttribute('href', baseHref);
+
+        // Register service worker for PWA support
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register("/pwa/sw.js", { scope: '/' });
+        }
       })();
     </script>
     <title>tududi</title>
