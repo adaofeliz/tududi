@@ -5,12 +5,14 @@ services:
       dockerfile: Dockerfile
     container_name: tududi
     environment:
+      # Base Config
       - TUDUDI_USER_EMAIL=admin@example.com
       - TUDUDI_USER_PASSWORD=your-secure-password
       - TUDUDI_SESSION_SECRET=changeme-please-use-openssl
       - TUDUDI_ALLOWED_ORIGINS=http://localhost:3002
       - TUDUDI_TRUST_PROXY=false
       - TUDUDI_UPLOAD_PATH=/app/backend/uploads
+
       # Feature Flags
       - FF_ENABLE_BACKUPS=${FF_ENABLE_BACKUPS:-false}
       - FF_ENABLE_CALENDAR=${FF_ENABLE_CALENDAR:-false}
@@ -20,6 +22,12 @@ services:
       # Other environment variables
       - BACKEND_URL=${BACKEND_URL:-http://localhost:3002}
       - SWAGGER_ENABLED=${SWAGGER_ENABLED:-false}
+
+      # Push Notifications (optional) - generate with: npm run vapid:generate
+      - VAPID_PUBLIC_KEY=${VAPID_PUBLIC_KEY:-vapid-public-key}
+      - VAPID_PRIVATE_KEY=${VAPID_PRIVATE_KEY:-vapid-private-key}
+      - VAPID_SUBJECT=${VAPID_SUBJECT:-mailto:admin@example.com}
+
       # Runtime UID/GID configuration - set these to match your host user/group
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
